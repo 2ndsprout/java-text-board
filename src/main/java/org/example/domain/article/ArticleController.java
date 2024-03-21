@@ -11,6 +11,7 @@ public class ArticleController {
     ArticleRepository articleRepository = new ArticleRepository();
     ArticleView articleView = new ArticleView();
     Scanner scan = commonUtill.getScan();
+    int WRONG_VALUE = -1;
     public void add () {
         System.out.print("제목을 입력해주세요 : ");
         String title = scan.nextLine();
@@ -30,7 +31,10 @@ public class ArticleController {
     }
     public void update () {
         System.out.print("수정하실 게시물 번호를 입력해주세요 : ");
-        int inputId = Integer.parseInt(scan.nextLine());
+        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
+        if(inputId == WRONG_VALUE) {
+            return;
+        }
         System.out.println("==============================");
 
         Article article = articleRepository.findArticleById(inputId);
@@ -54,7 +58,10 @@ public class ArticleController {
     }
     public void delete () {
         System.out.print("삭제하실 게시물 번호를 입력해주세요 : ");
-        int inputId = Integer.parseInt(scan.nextLine());
+        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
+        if(inputId == WRONG_VALUE) {
+            return;
+        }
         System.out.println("==============================");
 
         Article article = articleRepository.findArticleById(inputId);
@@ -71,7 +78,10 @@ public class ArticleController {
     }
     public void detail () {
         System.out.print("상세보기 하실 게시물 번호를 입력해주세요 : ");
-        int inputId = Integer.parseInt(scan.nextLine());
+        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
+        if(inputId == WRONG_VALUE) {
+            return;
+        }
 
         Article article = articleRepository.findArticleById(inputId);
 
@@ -87,5 +97,13 @@ public class ArticleController {
 
         articleView.printArticle(searchList);
 
+    }
+    public int getParamAsInt(String param, int defaultValue) {
+        try {
+            return Integer.parseInt(param);
+        } catch (NumberFormatException e) {
+            System.out.println("숫자를 입력해주세요.");
+            return defaultValue;
+        }
     }
 }

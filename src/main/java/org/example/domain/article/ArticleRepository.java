@@ -3,11 +3,9 @@ package org.example.domain.article;
 import org.example.base.CommonUtill;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ArticleRepository {
     CommonUtill commonUtill = new CommonUtill();
-    Scanner scan = commonUtill.getScan();
     ArrayList<Article> articleList = new ArrayList<>();
     int latestId = 4;
     public ArticleRepository () {
@@ -40,10 +38,8 @@ public class ArticleRepository {
         return articleList;
     }
     public Article findArticleById (int id) {
-        for (int i = 0; i < articleList.size(); i++) {
-            Article target = articleList.get(i);
-
-            if(target.getId() == id) {
+        for (Article target : articleList) {
+            if (target.getId() == id) {
                 return target;
             }
         }
@@ -52,13 +48,12 @@ public class ArticleRepository {
     public ArrayList<Article> findArticleByKeyword (String keyword) {
         ArrayList<Article> searchList = new ArrayList<>();
 
-        for (int i = 0; i <articleList.size(); i++) {
-            Article article = articleList.get(i);
-
+        for (Article article : articleList) {
             if (article.getTitle().contains(keyword)) {
                 searchList.add(article);
             }
         }
         return searchList;
     }
+
 }
